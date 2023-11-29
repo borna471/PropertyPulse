@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <!-- Link to the external CSS stylesheet. Uncomment if you wish to customize or add styling. -->
-    <!-- <link rel="stylesheet" href="styles.css">   -->
+    <link rel="stylesheet" href="styles.css">  
 
     <title>Database Application</title>
 </head>
@@ -26,7 +26,7 @@
 
     <!-- Show 'Demotable'. 
         Data will be fetched and inserted here dynamically using JavaScript. -->
-    <h2>Show Demotable Testing Testing</h2>
+    <h2>Show Demotable</h2>
     <table id="demotable" border="1">
         <thead>
             <tr>
@@ -41,7 +41,7 @@
 
     <br><hr><br> <!-- ========================================================================= -->
 
-    <h2>Reset Demotable</h2>
+    <h2>Reset Demotable TESTING</h2>
     <p>If you wish to reset the table press on the reset button. If this is the first time you're running this page, you MUST use reset</p>
     <button id="resetDemotable"> reset </button> <br>
     <!-- A placeholder to display messages related to the reset operation. -->
@@ -70,6 +70,32 @@
     </form>
     <!-- A placeholder to display messages related to the update operation. -->
     <div id="updateNameResultMsg"></div>
+
+    <br><hr><br> <!-- ========================================================================= -->
+
+    <h2>Delete Landlord from Database</h2>
+    
+    <form id="deleteLandlord">
+        Email: <input type="text" id="landlordEmail" placeholder="Enter Landlord's Email" maxlength="50"> <br><br>
+
+        <button type="submit""> Delete </button> <br>
+    </form>
+    
+    <div id="deleteResultMsg"></div>
+
+    <br><hr><br> <!-- ========================================================================= -->
+
+    <h2>Project Attributes from Database</h2>
+    <button id="projectAttributes"> Project </button> <br>
+
+    <div id="projectResultMsg"></div>
+
+    <br><hr><br> <!-- ========================================================================= -->
+
+    <h2>Nested Aggregation with Group By</h2>
+    <button id="nestedAggGroup"> Delete </button> <br>
+
+    <div id="nestedAggGroupResultMsg"></div>
 
     <br><hr><br> <!-- ========================================================================= -->
 

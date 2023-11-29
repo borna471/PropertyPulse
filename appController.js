@@ -35,6 +35,16 @@ router.post("/insert-demotable", async (req, res) => {
     if (insertResult) {
         res.json({ success: true });
     } else {
+        res.json({ success: false });
+    }
+});
+
+router.delete("/delete-landlord", async (req, res) => {
+    const { landlordEmail } = req.body;
+    const deleteResult = await appService.deleteLandlord(landlordEmail);
+    if (deleteResult) {
+        res.json({ success: true });
+    } else {
         res.status(500).json({ success: false });
     }
 });

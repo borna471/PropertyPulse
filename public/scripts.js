@@ -107,6 +107,33 @@ async function insertDemotable(event) {
     }
 }
 
+// Deletes a current landlord in the Landlord table
+async function deleteLandlord(event) {
+    event.preventDefault();
+
+    const landlordEmailValue = document.getElementById('landlordEmail').value;
+
+    const response = await fetch('/delete-landlord', {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            landlordEmail: landlordEmailValue
+        })
+    }); 
+
+    const responseData = await response.json();
+    const messageElement = document.getElementById('deleteResultMsg');
+
+    if (responseData.success) {
+        messageElement.textContent = "Landlord deleted successfully!";
+        fetchTableData();
+    } else {
+        messageElement.textContent = "Error deleting data!";
+    }
+}
+
 // Updates names in the demotable.
 async function updateNameDemotable(event) {
     event.preventDefault();
@@ -163,6 +190,7 @@ window.onload = function() {
     fetchTableData();
     document.getElementById("resetDemotable").addEventListener("click", resetDemotable);
     document.getElementById("insertDemotable").addEventListener("submit", insertDemotable);
+    document.getElementById("deleteLandlord").addEventListener("submit", deleteLandlord);
     document.getElementById("updataNameDemotable").addEventListener("submit", updateNameDemotable);
     document.getElementById("countDemotable").addEventListener("click", countDemotable);
 };
