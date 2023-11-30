@@ -100,14 +100,15 @@ async function deleteLandlord(landlordEmail) {
     });
 }
 
-async function updateNameDemotable(oldName, newName) {
+// TODO
+async function updatePhoneLandlord(email, oldNum, newNum) {
     return await withOracleDB(async (connection) => {
         const result = await connection.execute(
-            `UPDATE DEMOTABLE SET name=:newName where name=:oldName`,
-            [newName, oldName],
+            `UPDATE LANDLORD SET PhoneNumber=:newNum WHERE LandlordEmail=:email AND PhoneNumber=:oldNum`,
+            [newNum, email, oldNum],
             { autoCommit: true }
         );
-
+ 
         return result.rowsAffected && result.rowsAffected > 0;
     }).catch(() => {
         return false;
@@ -129,6 +130,6 @@ module.exports = {
     initiateDemotable, 
     insertDemotable, 
     deleteLandlord,
-    updateNameDemotable, 
+    updatePhoneLandlord, 
     countDemotable
 };

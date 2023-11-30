@@ -163,6 +163,37 @@ async function updateNameDemotable(event) {
     }
 }
 
+// Updates num properties in the landlord table.
+async function updatePhoneLandlord(event) {
+    event.preventDefault();
+
+    const emailValue = document.getElementById('updateEmailLandlord').value;
+    const oldNumValue = document.getElementById('updateOldPhoneLandlord').value;
+    const newNumValue = document.getElementById('updateNewPhoneLandlord').value;
+
+    const response = await fetch('/update-phone-landlord', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            email: emailValue,
+            oldNum: oldNumValue,
+            newNum: newNumValue
+        })
+    });
+
+    const responseData = await response.json();
+    const messageElement = document.getElementById('updateNameResultMsg');
+
+    if (responseData.success) {
+        messageElement.textContent = "num properties updated successfully!";
+        fetchTableData();
+    } else {
+        messageElement.textContent = "Error updating num properties!";
+    }
+}
+
 // Counts rows in the demotable.
 // Modify the function accordingly if using different aggregate functions or procedures.
 async function countDemotable() {
@@ -191,7 +222,7 @@ window.onload = function() {
     document.getElementById("resetDemotable").addEventListener("click", resetDemotable);
     document.getElementById("insertDemotable").addEventListener("submit", insertDemotable);
     document.getElementById("deleteLandlord").addEventListener("submit", deleteLandlord);
-    document.getElementById("updataNameDemotable").addEventListener("submit", updateNameDemotable);
+    document.getElementById("updateLandlordPhone").addEventListener("submit", updatePhoneLandlord);
     document.getElementById("countDemotable").addEventListener("click", countDemotable);
 };
 
