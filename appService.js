@@ -108,7 +108,7 @@ async function updatePhoneLandlord(email, oldNum, newNum) {
             [newNum, email, oldNum],
             { autoCommit: true }
         );
-
+ 
         return result.rowsAffected && result.rowsAffected > 0;
     }).catch(() => {
         return false;
