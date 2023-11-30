@@ -15,7 +15,6 @@ const dbConfig = {
 // ----------------------------------------------------------
 // Wrapper to manage OracleDB actions, simplifying connection handling.
 async function withOracleDB(action) {
-    //let connection;
     try {
         connection = await oracledb.getConnection(dbConfig);
         return await action(connection);
@@ -115,6 +114,22 @@ async function updatePhoneLandlord(email, oldNum, newNum) {
     });
 }
 
+async function nestedAggGroup() {
+    return await withOracleDB(async (connection) => {
+        const result = await connection.execute(
+            `SELECT P1.City
+            FROM Property P1 NATURAL JOIN PropertyValue PV1
+            GROUP BY P1.City
+            HAVING AVG(PV1.Price) < 
+            (SELECT AVG(PV2.Price) FROM Property P2 NATURAL JOIN PropertyValue PV2 WHERE City = 'Vancouver')`);
+        return result.rows;
+    }).catch(() => {
+        return false;
+    });
+}
+
+
+
 async function countDemotable() {
     return await withOracleDB(async (connection) => {
         const result = await connection.execute('SELECT Count(*) FROM DEMOTABLE');
@@ -131,5 +146,6 @@ module.exports = {
     insertDemotable, 
     deleteLandlord,
     updatePhoneLandlord, 
+    nestedAggGroup,
     countDemotable
 };

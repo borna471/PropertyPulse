@@ -226,19 +226,19 @@ VALUES ('landlord5@email.com', 'David Wilson', 9876543210, 2, 'propertymanager3@
 
 -- Property 
 INSERT INTO Property (Unit, Street, City, Province, PostalCode, Sqft, Bedrooms, ManagerEmail, LandlordEmail)
-VALUES ('A1', 'Main Street', 'Vancouver', 'British Columbia', 'V6A1B1', 1000, 2, 'propertymanager1@email.com', 'landlord1@email.com');
+VALUES ('A1', 'Main Street', 'Calgary', 'Alberta', 'T1Y8F6', 1000, 2, 'propertymanager1@email.com', 'landlord1@email.com');
 
 INSERT INTO Property (Unit, Street, City, Province, PostalCode, Sqft, Bedrooms, ManagerEmail, LandlordEmail)
-VALUES ('B2', 'Elm Street', 'Vancouver', 'British Columbia', 'V6A2B2', 1200, 3, 'propertymanager2@email.com', 'landlord2@email.com');
+VALUES ('B2', 'Elm Street', 'Calgary', 'Alberta', 'T2J2B2', 1200, 3, 'propertymanager2@email.com', 'landlord2@email.com');
 
 INSERT INTO Property (Unit, Street, City, Province, PostalCode, Sqft, Bedrooms, ManagerEmail, LandlordEmail)
-VALUES ('C3', 'Oak Street', 'Vancouver', 'British Columbia', 'V6A3B3', 1500, 4, 'propertymanager3@email.com', 'landlord3@email.com');
+VALUES ('C3', 'Oak Street', 'Vancouver', 'British Columbia', 'V6A3B3', 2000, 4, 'propertymanager3@email.com', 'landlord3@email.com');
 
 INSERT INTO Property (Unit, Street, City, Province, PostalCode, Sqft, Bedrooms, ManagerEmail, LandlordEmail)
 VALUES ('D4', 'Cedar Street', 'Vancouver', 'British Columbia', 'V6A4B4', 1800, 3, 'propertymanager1@email.com', 'landlord4@email.com');
 
 INSERT INTO Property (Unit, Street, City, Province, PostalCode, Sqft, Bedrooms, ManagerEmail, LandlordEmail)
-VALUES ('E5', 'Cypress Street', 'Toronto', 'Ontario', 'Y8A5B5', 1500, 4, 'propertymanager2@email.com', 'landlord5@email.com');
+VALUES ('E5', 'Cypress Street', 'Toronto', 'Ontario', 'M4C5B5', 1500, 4, 'propertymanager2@email.com', 'landlord5@email.com');
 
 -- PropertyValue
 
@@ -256,10 +256,10 @@ INSERT INTO PropertyValue (Sqft, Bedrooms, Price) VALUES (2000, 4, 6000000);
 -- -- Apartment:
 
 INSERT INTO Apartment (Unit, Street, PostalCode, FloorLevel, Stories, ElevatorCount)
-VALUES ('A1', 'Main Street', 'V6A1B1', 1, 20, 2);
+VALUES ('A1', 'Main Street', 'T1Y8F6', 1, 20, 2);
 
 INSERT INTO Apartment (Unit, Street, PostalCode, FloorLevel, Stories, ElevatorCount)
-VALUES ('B2', 'Elm Street', 'V6A2B2', 2, 4, 1);
+VALUES ('B2', 'Elm Street', 'T2J2B2', 2, 4, 1);
 
 INSERT INTO Apartment (Unit, Street, PostalCode, FloorLevel, Stories, ElevatorCount)
 VALUES ('C3', 'Oak Street', 'V6A3B3', 3, 15, 2);
@@ -268,7 +268,7 @@ INSERT INTO Apartment (Unit, Street, PostalCode, FloorLevel, Stories, ElevatorCo
 VALUES ('D4', 'Cedar Street', 'V6A4B4', 4, 10, 3);
 
 INSERT INTO Apartment (Unit, Street, PostalCode, FloorLevel, Stories, ElevatorCount)
-VALUES ('E5', 'Cypress Street', 'Y8A5B5', 5, 30, 3);
+VALUES ('E5', 'Cypress Street', 'M4C5B5', 5, 30, 3);
 
 
 -- -- Townhome:
@@ -357,7 +357,10 @@ VALUES ('E5', 'Cypress Street', 'Y8A5B5', 5, 30, 3);
 
 
 -- Nested Aggregation with Group By
-
+-- SELECT P1.City, AVG(PV1.Price) AS AvgPrice
+-- FROM Property P1 NATURAL JOIN PropertyValue PV1
+-- GROUP BY P1.City
+-- HAVING AVG(PV1.Price) < (SELECT AVG(PV2.Price) FROM Property P2 NATURAL JOIN PropertyValue PV2 WHERE City = 'Vancouver');
 
 -- Division
 

@@ -194,6 +194,26 @@ async function updatePhoneLandlord(event) {
     }
 }
 
+async function nestedAggGroup() {
+    const response = await fetch("/nestedAggGroup", {
+        method: 'GET'
+    });
+
+    const responseData = await response.json();
+    const messageElement = document.getElementById('nestedAggGroupResultMsg');
+
+    if (responseData.success) {
+        const nestedAggGroup = responseData.data;
+        if (nestedAggGroup != "") {
+            messageElement.textContent = `The cities with average property prices lower than Vancouver is: ${nestedAggGroup}`;
+        } else {
+            messageElement.textContent = `The cities with average property prices lower than Vancouver is: None!`;
+        } 
+    } else {
+        alert("Error calculating cities and average property prices!");
+    }
+}
+
 // Counts rows in the demotable.
 // Modify the function accordingly if using different aggregate functions or procedures.
 async function countDemotable() {
@@ -223,6 +243,7 @@ window.onload = function() {
     document.getElementById("insertDemotable").addEventListener("submit", insertDemotable);
     document.getElementById("deleteLandlord").addEventListener("submit", deleteLandlord);
     document.getElementById("updateLandlordPhone").addEventListener("submit", updatePhoneLandlord);
+    document.getElementById("nestedAggGroup").addEventListener("click", nestedAggGroup);
     document.getElementById("countDemotable").addEventListener("click", countDemotable);
 };
 

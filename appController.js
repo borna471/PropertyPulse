@@ -59,6 +59,21 @@ router.post("/update-phone-landlord", async (req, res) => {
     }
 });
 
+router.get('/nestedAggGroup', async (req, res) => {
+    const cities = await appService.nestedAggGroup();
+    if (cities) {
+        res.json({ 
+            success: true,  
+            data: cities
+        });
+    } else {
+        res.status(500).json({ 
+            success: false, 
+            data: cities
+        });
+    }
+});
+
 router.get('/count-demotable', async (req, res) => {
     const tableCount = await appService.countDemotable();
     if (tableCount >= 0) {
