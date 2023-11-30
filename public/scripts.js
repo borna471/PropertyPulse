@@ -167,7 +167,7 @@ async function updateNameDemotable(event) {
 async function updatePhoneLandlord(event) {
     event.preventDefault();
 
-    const emailValue = document.getElementById('updateOldPhoneLandlord').value;
+    const emailValue = document.getElementById('updateEmailLandlord').value;
     const oldNumValue = document.getElementById('updateOldPhoneLandlord').value;
     const newNumValue = document.getElementById('updateNewPhoneLandlord').value;
 
@@ -222,7 +222,7 @@ window.onload = function() {
     document.getElementById("resetDemotable").addEventListener("click", resetDemotable);
     document.getElementById("insertDemotable").addEventListener("submit", insertDemotable);
     document.getElementById("deleteLandlord").addEventListener("submit", deleteLandlord);
-    document.getElementById("updateNumPropertiesLandlord").addEventListener("submit", updatePhoneLandlord);
+    document.getElementById("updateLandlordPhone").addEventListener("submit", updatePhoneLandlord);
     document.getElementById("countDemotable").addEventListener("click", countDemotable);
 };
 

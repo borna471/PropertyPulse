@@ -104,7 +104,7 @@ async function deleteLandlord(landlordEmail) {
 async function updatePhoneLandlord(email, oldNum, newNum) {
     return await withOracleDB(async (connection) => {
         const result = await connection.execute(
-            `UPDATE LANDLORD SET PhoneNumber=:newNum WHERE Email=:email AND PhoneNumber=:oldNum`,
+            `UPDATE LANDLORD SET PhoneNumber=:newNum WHERE LandlordEmail=:email AND PhoneNumber=:oldNum`,
             [newNum, email, oldNum],
             { autoCommit: true }
         );
