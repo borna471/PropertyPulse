@@ -49,9 +49,9 @@ router.delete("/delete-landlord", async (req, res) => {
     }
 });
 
-router.post("/update-name-demotable", async (req, res) => {
-    const { oldName, newName } = req.body;
-    const updateResult = await appService.updateNameDemotable(oldName, newName);
+router.post("/update-phone-landlord", async (req, res) => {
+    const { email, oldNum, newNum } = req.body;
+    const updateResult = await appService.updatePhoneLandlord(email, oldNum, newNum);
     if (updateResult) {
         res.json({ success: true });
     } else {

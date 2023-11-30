@@ -17,7 +17,7 @@
          -->
     <h1>Database Connection Status: 
         <!-- An in-line placeholder to display connection status. -->
-        <span id="dbStatus"> </span>
+        <span id="dbStatus"> </span> 
         <!-- A loading GIF, will be hided once get the status. -->
         <img id="loadingGif" class="loading-gif" src="loading_100px.gif" alt="Loading...">
     </h1>
@@ -31,8 +31,10 @@
         <thead>
             <tr>
                 <!--Table head, need to be adjusted accordingly to align with your own.-->
-                <th>ID</th>
+                <th>Email</th>
                 <th>Name</th>
+                <th>Phone Number</th>
+                <th>Num Properties</th>
             </tr>
         </thead>
         <tbody>
@@ -60,11 +62,12 @@
 
     <br><hr><br> <!-- ========================================================================= -->
 
-    <h2>Update Name in DemoTable</h2>
+    <h2>Update Number of Properties in DemoTable</h2>
     <p>The values are case sensitive and if you enter in the wrong case, the update statement will not do anything.</p>
-    <form id="updataNameDemotable">
-        Old Name: <input type="text" id="updateOldName" placeholder="Enter Old Name" required> <br><br>
-        New Name: <input type="text" id="updateNewName" placeholder="Enter New Name" maxlength="20"> <br><br>
+    <form id="updateLandlordPhone">
+        Landlord's Current Email: <input type="text" id="updateEmailLandlord" placeholder="Enter Email of Landlord of Interest" required> <br><br>
+        Old Phone Number: <input type="integer" id="updateOldPhoneLandlord" placeholder="Enter Old Phone Number of Landlord" required> <br><br>
+        New Phone Number: <input type="integer" id="updateNewPhoneLandlord" placeholder="Enter New Phone Number of Landlord" maxlength="20"> <br><br>
 
         <button type="submit"> update </button> <br>
     </form>
