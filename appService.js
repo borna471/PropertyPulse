@@ -99,7 +99,7 @@ async function deleteLandlord(landlordEmail) {
     });
 }
 
-// TODO
+
 async function updatePhoneLandlord(email, oldNum, newNum) {
     return await withOracleDB(async (connection) => {
         const result = await connection.execute(
@@ -109,6 +109,20 @@ async function updatePhoneLandlord(email, oldNum, newNum) {
         );
  
         return result.rowsAffected && result.rowsAffected > 0;
+    }).catch(() => {
+        return false;
+    });
+}
+
+async function AggHaving() {
+    return await withOracleDB(async (connection) => {
+        const result = await connection.execute(
+            `SELECT LandlordName
+            FROM Landlord
+            GROUP BY NumProperties, LandlordName
+            HAVING NumProperties >= 3`
+            );
+        return result.rows;
     }).catch(() => {
         return false;
     });
@@ -146,6 +160,7 @@ module.exports = {
     insertDemotable, 
     deleteLandlord,
     updatePhoneLandlord, 
+    AggHaving,
     nestedAggGroup,
     countDemotable
 };

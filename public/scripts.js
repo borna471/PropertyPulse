@@ -184,13 +184,33 @@ async function updatePhoneLandlord(event) {
     });
 
     const responseData = await response.json();
-    const messageElement = document.getElementById('updateNameResultMsg');
+    const messageElement = document.getElementById('updatePhoneResultMsg');
 
     if (responseData.success) {
-        messageElement.textContent = "num properties updated successfully!";
+        messageElement.textContent = "phone number updated successfully!";
         fetchTableData();
     } else {
-        messageElement.textContent = "Error updating num properties!";
+        messageElement.textContent = "Error updating phone number!";
+    }
+}
+
+async function AggHaving() {
+    const response = await fetch("/AggHaving", {
+        method: 'GET'
+    });
+
+    const responseData = await response.json();
+    const messageElement = document.getElementById('AggHavingResultMsg');
+
+    if (responseData.success) {
+        const nestedAggGroup = responseData.data;
+        if (nestedAggGroup != "") {
+            messageElement.textContent = `Our current top clients are: ${nestedAggGroup}`;
+        } else {
+            messageElement.textContent = `We have no top clients! (no client with 3+ properties with us)`;
+        } 
+    } else {
+        alert("Error finding top clients!");
     }
 }
 
@@ -213,6 +233,8 @@ async function nestedAggGroup() {
         alert("Error calculating cities and average property prices!");
     }
 }
+
+
 
 // Counts rows in the demotable.
 // Modify the function accordingly if using different aggregate functions or procedures.
@@ -243,6 +265,7 @@ window.onload = function() {
     document.getElementById("insertDemotable").addEventListener("submit", insertDemotable);
     document.getElementById("deleteLandlord").addEventListener("submit", deleteLandlord);
     document.getElementById("updateLandlordPhone").addEventListener("submit", updatePhoneLandlord);
+    document.getElementById("AggHaving").addEventListener("click", AggHaving);
     document.getElementById("nestedAggGroup").addEventListener("click", nestedAggGroup);
     document.getElementById("countDemotable").addEventListener("click", countDemotable);
 };

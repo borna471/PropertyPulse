@@ -165,13 +165,13 @@ INSERT INTO Landlord (LandlordEmail, LandlordName, PhoneNumber, NumProperties, M
 VALUES ('landlord2@email.com', 'Jane Smith', 9876543210, 1, 'propertymanager1@email.com');
 
 INSERT INTO Landlord (LandlordEmail, LandlordName, PhoneNumber, NumProperties, ManagerEmail)
-VALUES ('landlord3@email.com', 'Peter Jones', 0987654321, 3, 'propertymanager2@email.com');
+VALUES ('landlord3@email.com', 'Peter Jones', 0987654321, 8, 'propertymanager2@email.com');
 
 INSERT INTO Landlord (LandlordEmail, LandlordName, PhoneNumber, NumProperties, ManagerEmail)
-VALUES ('landlord4@email.com', 'Mary Brown', 1234567890, 4, 'propertymanager2@email.com');
+VALUES ('landlord4@email.com', 'Mary Brown', 1234567890, 5, 'propertymanager2@email.com');
 
 INSERT INTO Landlord (LandlordEmail, LandlordName, PhoneNumber, NumProperties, ManagerEmail)
-VALUES ('landlord5@email.com', 'David Wilson', 9876543210, 2, 'propertymanager3@email.com');
+VALUES ('landlord5@email.com', 'David Wilson', 9876543210, 7, 'propertymanager3@email.com');
 
 -- -- Tenant:
 -- INSERT INTO Tenant (Email, Name, PhoneNumber, StartDate, EndDate, DurationMonths, ContractID, Unit, Street, PostalCode)
