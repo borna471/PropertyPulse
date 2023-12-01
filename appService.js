@@ -142,6 +142,26 @@ async function nestedAggGroup() {
     });
 }
 
+// Query TODO
+async function division() {
+    return await withOracleDB(async (connection) => {
+        const result = await connection.execute(
+            `SELECT ManagerName 
+            FROM PropertyManager PM
+            WHERE NOT EXISTS
+            ((SELECT DISTINCT Province
+              FROM Property)
+              MINUS
+              (SELECT DISTINCT P.Province
+               FROM Property P
+               WHERE P.ManagerEmail = PM.Email))`
+            );
+        return result.rows;
+    }).catch(() => {
+        return false;
+    });
+}
+
 
 
 async function countDemotable() {
@@ -162,5 +182,6 @@ module.exports = {
     updatePhoneLandlord, 
     AggHaving,
     nestedAggGroup,
+    division, 
     countDemotable
 };

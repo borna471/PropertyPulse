@@ -8,7 +8,7 @@ DROP TABLE PropertyManager CASCADE CONSTRAINTS;
 DROP TABLE Property CASCADE CONSTRAINTS;
 DROP TABLE PropertyValue CASCADE CONSTRAINTS;
 DROP TABLE Apartment CASCADE CONSTRAINTS;
--- DROP TABLE Townhome CASCADE CONSTRAINTS;
+DROP TABLE Townhome CASCADE CONSTRAINTS;
 -- DROP TABLE Contract CASCADE CONSTRAINTS;
 -- DROP TABLE Payment CASCADE CONSTRAINTS;
 
@@ -87,6 +87,17 @@ CREATE TABLE Apartment (
     FOREIGN KEY (Unit, Street, PostalCode) REFERENCES Property ON DELETE CASCADE
 );
 
+-- Townhome NEW
+CREATE TABLE Townhome (
+    Unit VARCHAR(255),
+    Street VARCHAR(255),
+    PostalCode CHAR(6),
+    AttachedHomes INTEGER,
+    NumberOfFloors INTEGER,
+    PRIMARY KEY (Unit, Street, PostalCode),
+    FOREIGN KEY (Unit, Street, PostalCode) REFERENCES Property ON DELETE CASCADE
+);
+
 -- -- Townhome
 -- CREATE TABLE Townhome (
 --     Unit VARCHAR(255),
@@ -159,19 +170,19 @@ VALUES ('propertymanager5@email.com', 'Emily Anderson', 1234567890);
 -- -- Landlord:
 
 INSERT INTO Landlord (LandlordEmail, LandlordName, PhoneNumber, NumProperties, ManagerEmail)
-VALUES ('landlord1@email.com', 'John Doe', 1234567890, 2, 'propertymanager1@email.com');
+VALUES ('landlord1@email.com', 'John Doe', 1234567890, 1, 'propertymanager1@email.com');
 
 INSERT INTO Landlord (LandlordEmail, LandlordName, PhoneNumber, NumProperties, ManagerEmail)
 VALUES ('landlord2@email.com', 'Jane Smith', 9876543210, 1, 'propertymanager1@email.com');
 
 INSERT INTO Landlord (LandlordEmail, LandlordName, PhoneNumber, NumProperties, ManagerEmail)
-VALUES ('landlord3@email.com', 'Peter Jones', 0987654321, 8, 'propertymanager2@email.com');
+VALUES ('landlord3@email.com', 'Peter Jones', 0987654321, 3, 'propertymanager2@email.com');
 
 INSERT INTO Landlord (LandlordEmail, LandlordName, PhoneNumber, NumProperties, ManagerEmail)
-VALUES ('landlord4@email.com', 'Mary Brown', 1234567890, 5, 'propertymanager2@email.com');
+VALUES ('landlord4@email.com', 'Mary Brown', 1234567890, 4, 'propertymanager2@email.com');
 
 INSERT INTO Landlord (LandlordEmail, LandlordName, PhoneNumber, NumProperties, ManagerEmail)
-VALUES ('landlord5@email.com', 'David Wilson', 9876543210, 7, 'propertymanager3@email.com');
+VALUES ('landlord5@email.com', 'David Wilson', 9876543210, 1, 'propertymanager3@email.com');
 
 -- -- Tenant:
 -- INSERT INTO Tenant (Email, Name, PhoneNumber, StartDate, EndDate, DurationMonths, ContractID, Unit, Street, PostalCode)
@@ -225,20 +236,37 @@ VALUES ('landlord5@email.com', 'David Wilson', 9876543210, 7, 'propertymanager3@
 
 
 -- Property 
+-- Apartment
 INSERT INTO Property (Unit, Street, City, Province, PostalCode, Sqft, Bedrooms, ManagerEmail, LandlordEmail)
 VALUES ('A1', 'Main Street', 'Calgary', 'Alberta', 'T1Y8F6', 1000, 2, 'propertymanager1@email.com', 'landlord1@email.com');
 
 INSERT INTO Property (Unit, Street, City, Province, PostalCode, Sqft, Bedrooms, ManagerEmail, LandlordEmail)
-VALUES ('B2', 'Elm Street', 'Calgary', 'Alberta', 'T2J2B2', 1200, 3, 'propertymanager2@email.com', 'landlord2@email.com');
+VALUES ('A2', 'Elm Street', 'Calgary', 'Alberta', 'T2J2B2', 1200, 3, 'propertymanager1@email.com', 'landlord2@email.com');
 
 INSERT INTO Property (Unit, Street, City, Province, PostalCode, Sqft, Bedrooms, ManagerEmail, LandlordEmail)
-VALUES ('C3', 'Oak Street', 'Vancouver', 'British Columbia', 'V6A3B3', 2000, 4, 'propertymanager3@email.com', 'landlord3@email.com');
+VALUES ('A3', 'Oak Street', 'Vancouver', 'British Columbia', 'V6A3B3', 2000, 4, 'propertymanager3@email.com', 'landlord5@email.com');
 
 INSERT INTO Property (Unit, Street, City, Province, PostalCode, Sqft, Bedrooms, ManagerEmail, LandlordEmail)
-VALUES ('D4', 'Cedar Street', 'Vancouver', 'British Columbia', 'V6A4B4', 1800, 3, 'propertymanager1@email.com', 'landlord4@email.com');
+VALUES ('A4', 'Cedar Street', 'Vancouver', 'British Columbia', 'V6A4B4', 1800, 3, 'propertymanager2@email.com', 'landlord3@email.com');
 
 INSERT INTO Property (Unit, Street, City, Province, PostalCode, Sqft, Bedrooms, ManagerEmail, LandlordEmail)
-VALUES ('E5', 'Cypress Street', 'Toronto', 'Ontario', 'M4C5B5', 1500, 4, 'propertymanager2@email.com', 'landlord5@email.com');
+VALUES ('A5', 'Cypress Street', 'Toronto', 'Ontario', 'M4C5B5', 1500, 4, 'propertymanager2@email.com', 'landlord4@email.com');
+-- Townhome
+INSERT INTO Property (Unit, Street, City, Province, PostalCode, Sqft, Bedrooms, ManagerEmail, LandlordEmail)
+VALUES ('T1', 'Maple Street', 'Montreal', 'Quebec', 'V6A1B1', 1050, 2, 'propertymanager2@email.com', 'landlord3@email.com');
+
+INSERT INTO Property (Unit, Street, City, Province, PostalCode, Sqft, Bedrooms, ManagerEmail, LandlordEmail)
+VALUES ('T2', 'Birch Street', 'Montreal', 'Quebec', 'V6A2B2', 1100, 3, 'propertymanager2@email.com', 'landlord4@email.com');
+
+INSERT INTO Property (Unit, Street, City, Province, PostalCode, Sqft, Bedrooms, ManagerEmail, LandlordEmail)
+VALUES ('T3', 'Pine Street', 'Vancouver', 'British Columbia', 'V6A3B3', 700, 1, 'propertymanager2@email.com', 'landlord4@email.com');
+
+INSERT INTO Property (Unit, Street, City, Province, PostalCode, Sqft, Bedrooms, ManagerEmail, LandlordEmail)
+VALUES ('T4', 'Willow Street', 'Calgary', 'Alberta', 'V6A4B4', 1600, 4, 'propertymanager2@email.com', 'landlord4@email.com');
+
+INSERT INTO Property (Unit, Street, City, Province, PostalCode, Sqft, Bedrooms, ManagerEmail, LandlordEmail)
+VALUES ('T5', 'Cedar Street', 'Toronto', 'Ontario', 'V6A5B5', 800, 2, 'propertymanager2@email.com', 'landlord3@email.com');
+
 
 -- PropertyValue
 
@@ -252,6 +280,16 @@ INSERT INTO PropertyValue (Sqft, Bedrooms, Price) VALUES (1800, 3, 4000000);
 
 INSERT INTO PropertyValue (Sqft, Bedrooms, Price) VALUES (2000, 4, 6000000);
 
+INSERT INTO PropertyValue (Sqft, Bedrooms, Price) VALUES (1050, 2, 1200000);
+
+INSERT INTO PropertyValue (Sqft, Bedrooms, Price) VALUES (1100, 3, 1800000);
+
+INSERT INTO PropertyValue (Sqft, Bedrooms, Price) VALUES (700, 1, 1100000);
+
+INSERT INTO PropertyValue (Sqft, Bedrooms, Price) VALUES (1600, 4, 2500000);
+
+INSERT INTO PropertyValue (Sqft, Bedrooms, Price) VALUES (800, 2, 900000);
+
 
 -- -- Apartment:
 
@@ -259,33 +297,33 @@ INSERT INTO Apartment (Unit, Street, PostalCode, FloorLevel, Stories, ElevatorCo
 VALUES ('A1', 'Main Street', 'T1Y8F6', 1, 20, 2);
 
 INSERT INTO Apartment (Unit, Street, PostalCode, FloorLevel, Stories, ElevatorCount)
-VALUES ('B2', 'Elm Street', 'T2J2B2', 2, 4, 1);
+VALUES ('A2', 'Elm Street', 'T2J2B2', 2, 4, 1);
 
 INSERT INTO Apartment (Unit, Street, PostalCode, FloorLevel, Stories, ElevatorCount)
-VALUES ('C3', 'Oak Street', 'V6A3B3', 3, 15, 2);
+VALUES ('A3', 'Oak Street', 'V6A3B3', 3, 15, 2);
 
 INSERT INTO Apartment (Unit, Street, PostalCode, FloorLevel, Stories, ElevatorCount)
-VALUES ('D4', 'Cedar Street', 'V6A4B4', 4, 10, 3);
+VALUES ('A4', 'Cedar Street', 'V6A4B4', 4, 10, 3);
 
 INSERT INTO Apartment (Unit, Street, PostalCode, FloorLevel, Stories, ElevatorCount)
-VALUES ('E5', 'Cypress Street', 'M4C5B5', 5, 30, 3);
+VALUES ('A5', 'Cypress Street', 'M4C5B5', 5, 30, 3);
 
 
--- -- Townhome:
--- INSERT INTO Townhome (Unit, Street, PostalCode, AttachedHomes, NumberOfFloors, ManagerEmail, LandlordEmail)
--- VALUES ('T1', 'Maple Street', 'V6A 1B1', 2, 3, 'propertymanager1@email.com', 'landlord1@email.com');
+-- Townhome:
+INSERT INTO Townhome (Unit, Street, PostalCode, AttachedHomes, NumberOfFloors)
+VALUES ('T1', 'Maple Street', 'V6A1B1', 2, 3);
 
--- INSERT INTO Townhome (Unit, Street, PostalCode, AttachedHomes, NumberOfFloors, ManagerEmail, LandlordEmail)
--- VALUES ('T2', 'Birch Street', 'V6A 2B2', 3, 2, 'propertymanager2@email.com', 'landlord2@email.com');
+INSERT INTO Townhome (Unit, Street, PostalCode, AttachedHomes, NumberOfFloors)
+VALUES ('T2', 'Birch Street', 'V6A2B2', 3, 2);
 
--- INSERT INTO Townhome (Unit, Street, PostalCode, AttachedHomes, NumberOfFloors, ManagerEmail, LandlordEmail)
--- VALUES ('T3', 'Pine Street', 'V6A 3B3', 4, 3, 'propertymanager3@email.com', 'landlord3@email.com');
+INSERT INTO Townhome (Unit, Street, PostalCode, AttachedHomes, NumberOfFloors)
+VALUES ('T3', 'Pine Street', 'V6A3B3', 4, 3);
 
--- INSERT INTO Townhome (Unit, Street, PostalCode, AttachedHomes, NumberOfFloors, ManagerEmail, LandlordEmail)
--- VALUES ('T4', 'Willow Street', 'V6A 4B4', 5, 2, 'propertymanager1@email.com', 'landlord4@email.com');
+INSERT INTO Townhome (Unit, Street, PostalCode, AttachedHomes, NumberOfFloors)
+VALUES ('T4', 'Willow Street', 'V6A4B4', 5, 2);
 
--- INSERT INTO Townhome (Unit, Street, PostalCode, AttachedHomes, NumberOfFloors, ManagerEmail, LandlordEmail)
--- VALUES ('T5', 'Cedar Street', 'V6A 5B5', 6, 3, 'propertymanager2@email.com', 'landlord5@email.com');
+INSERT INTO Townhome (Unit, Street, PostalCode, AttachedHomes, NumberOfFloors)
+VALUES ('T5', 'Cedar Street', 'V6A5B5', 6, 3);
 
 
 

@@ -89,6 +89,21 @@ router.get('/nestedAggGroup', async (req, res) => {
     }
 });
 
+router.get('/division', async (req, res) => {
+    const landlords = await appService.division();
+    if (landlords) {
+        res.json({ 
+            success: true,  
+            data: landlords
+        });
+    } else {
+        res.status(500).json({ 
+            success: false, 
+            data: landlords
+        });
+    }
+});
+
 router.get('/count-demotable', async (req, res) => {
     const tableCount = await appService.countDemotable();
     if (tableCount >= 0) {

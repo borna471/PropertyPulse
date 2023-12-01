@@ -234,6 +234,26 @@ async function nestedAggGroup() {
     }
 }
 
+async function division() {
+    const response = await fetch("/division", {
+        method: 'GET'
+    });
+
+    const responseData = await response.json();
+    const messageElement = document.getElementById('divisionMsg');
+
+    if (responseData.success) {
+        const divisionResult = responseData.data;
+        if (divisionResult != "") {
+            messageElement.textContent = `Manager(s) that manage properties in all Provinces: ${divisionResult}`;
+        } else {
+            messageElement.textContent = `Error finding request Managers!`;
+        } 
+    } else {
+        alert("Error finding requested Managers!");
+    }
+}
+
 
 
 // Counts rows in the demotable.
@@ -267,6 +287,7 @@ window.onload = function() {
     document.getElementById("updateLandlordPhone").addEventListener("submit", updatePhoneLandlord);
     document.getElementById("AggHaving").addEventListener("click", AggHaving);
     document.getElementById("nestedAggGroup").addEventListener("click", nestedAggGroup);
+    document.getElementById("division").addEventListener("click", division);
     document.getElementById("countDemotable").addEventListener("click", countDemotable);
 };
 
