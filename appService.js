@@ -162,7 +162,43 @@ async function division() {
     });
 }
 
+async function fetchTables() {
+    return await withOracleDB(async (connection) => {
+        const result = await connection.execute('SELECT table_name FROM user_tables');
+        return result.rows.map(row => row[0]);
+    }).catch(() => {
+        return [];
+    });
+}
 
+async function fetchAttributeNames(tableName) {
+    return await withOracleDB(async (connection) => {
+        const result = await connection.execute(
+            `SELECT column_name FROM user_tab_columns WHERE table_name = :tableName`, 
+            [tableName],
+            { autoCommit: true }
+        );
+        return result.rows.map(row => row[0]);
+    }).catch(() => {
+        return [];
+    });
+}
+
+async function fetchDataForAttributes(tableName, selectedAttributes) {
+    const selectedAttributesStr = selectedAttributes.join(', ');
+    const query = `SELECT ${selectedAttributesStr} FROM ${tableName}`;
+    
+    return await withOracleDB(async (connection) => {
+        const result = await connection.execute(
+            query,
+            [],
+            { autoCommit: true }
+        );
+        return result.rows;
+    }).catch(() => {
+        return [];
+    });
+}
 
 async function countDemotable() {
     return await withOracleDB(async (connection) => {
@@ -183,5 +219,8 @@ module.exports = {
     AggHaving,
     nestedAggGroup,
     division, 
+    fetchTables,
+    fetchAttributeNames,
+    fetchDataForAttributes,
     countDemotable
 };

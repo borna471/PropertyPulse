@@ -119,5 +119,33 @@ router.get('/count-demotable', async (req, res) => {
     }
 });
 
+router.get('/all-table-names', async (req, res) => {
+    const tableNames = await appService.fetchTables();
+    if (tableNames) {
+        res.json({ success: true, data: tableNames });
+    } else {
+        res.status(500).json({ success: false });
+    }
+});
+
+router.get('/attribute-names/:tableName', async (req, res) => {
+    const { tableName } = req.params;
+    const attributeNames = await appService.fetchAttributeNames(tableName);
+    if (attributeNames) {
+        res.json({ success: true, data: attributeNames });
+    } else {
+        res.status(500).json({ success: false });
+    }
+});
+
+router.post('/fetch-data-for-attributes', async (req, res) => {
+    const { tableName, selectedAttributes } = req.body;
+    const data = await appService.fetchDataForAttributes(tableName, selectedAttributes);
+    if (data) {
+        res.json({ success: true, data: data });
+    } else {
+        res.status(500).json({ success: false });
+    }
+});
 
 module.exports = router;

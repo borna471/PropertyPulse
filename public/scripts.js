@@ -134,35 +134,6 @@ async function deleteLandlord(event) {
     }
 }
 
-// Updates names in the demotable.
-async function updateNameDemotable(event) {
-    event.preventDefault();
-
-    const oldNameValue = document.getElementById('updateOldName').value;
-    const newNameValue = document.getElementById('updateNewName').value;
-
-    const response = await fetch('/update-name-demotable', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-            oldName: oldNameValue,
-            newName: newNameValue
-        })
-    });
-
-    const responseData = await response.json();
-    const messageElement = document.getElementById('updateNameResultMsg');
-
-    if (responseData.success) {
-        messageElement.textContent = "Name updated successfully!";
-        fetchTableData();
-    } else {
-        messageElement.textContent = "Error updating name!";
-    }
-}
-
 // Updates num properties in the landlord table.
 async function updatePhoneLandlord(event) {
     event.preventDefault();
@@ -254,23 +225,103 @@ async function division() {
     }
 }
 
-
-
-// Counts rows in the demotable.
-// Modify the function accordingly if using different aggregate functions or procedures.
-async function countDemotable() {
-    const response = await fetch("/count-demotable", {
+async function fetchTables() {
+    const response = await fetch('/all-table-names', {
         method: 'GET'
     });
 
+    const tables = await response.json();
+    const tableNamesSelect = document.getElementById('tableNames');
+
+    if (tables.success) {
+        tables.data.forEach(tableName => {
+            const option = document.createElement('option');
+            option.value = tableName;
+            option.text = tableName;
+            tableNamesSelect.add(option);
+        });
+    } else {
+        alert("Error fetching tables!");
+    }
+}
+
+async function fetchAttributeNames() {
+    const tableNamesSelect = document.getElementById('tableNames');
+    const selectedTableName = tableNamesSelect.value;
+
+    const response = await fetch(`/attribute-names/${selectedTableName}`);
+    const attributes = await response.json();
+    const attributeNamesSelect = document.getElementById('attributeNames');
+
+    // Always clear old, already fetched data before new fetching process.
+    attributeNamesSelect.innerHTML = '';
+        
+    if (attributes.success) {
+        attributes.data.forEach(attributeName => {
+            const option = document.createElement('option');
+            option.value = attributeName;
+            option.text = attributeName;
+            attributeNamesSelect.add(option);
+        });
+    } else {
+        const messageElement = document.getElementById('projectResultMsg');
+        messageElement.textContent = `Error finding attributes from selected table!`;
+        alert("Error fetching attributes!");
+    }
+}
+
+// Helper function to display selected data
+function displaySelectedData(data) {
+    const selectedDataTable = document.getElementById('selectedDataTable');
+    const selectedDataBody = document.getElementById('selectedDataBody');
+
+    // Always clear old, already fetched data before new fetching process.
+    selectedDataBody.innerHTML = '';
+
+    data.forEach(data => {
+        const row = document.createElement('tr');
+        Object.values(data).forEach(value => {
+            const cell = document.createElement('td');
+            cell.textContent = value;
+            row.appendChild(cell);
+        });
+        selectedDataBody.appendChild(row);
+    });
+
+    if (selectedDataBody.innerHTML == '') {
+        const messageElement = document.getElementById('projectResultMsg');
+        messageElement.textContent = `Error finding data from selected attributes!`;
+        selectedDataTable.style.display = 'none';
+    } else {
+        const messageElement = document.getElementById('projectResultMsg');
+        messageElement.textContent = ``;
+        selectedDataTable.style.display = 'block';
+    }
+    
+}
+
+async function fetchDataForAttributes() {
+    const tableNamesSelect = document.getElementById('tableNames');
+    const selectedTableName = tableNamesSelect.value;
+
+    const attributeNamesSelect = document.getElementById('attributeNames');
+    const selectedAttributes = Array.from(attributeNamesSelect.selectedOptions, option => option.value);
+
+    const response = await fetch('/fetch-data-for-attributes', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ tableName: selectedTableName, selectedAttributes }),
+    });
+
     const responseData = await response.json();
-    const messageElement = document.getElementById('countResultMsg');
+    const messageElement = document.getElementById('projectResultMsg');
 
     if (responseData.success) {
-        const tupleCount = responseData.count;
-        messageElement.textContent = `The number of tuples in demotable: ${tupleCount}`;
+        displaySelectedData(responseData.data);
     } else {
-        alert("Error in count demotable!");
+        messageElement.textContent = `Error finding data from selected attributes!`;
     }
 }
 
@@ -288,6 +339,9 @@ window.onload = function() {
     document.getElementById("AggHaving").addEventListener("click", AggHaving);
     document.getElementById("nestedAggGroup").addEventListener("click", nestedAggGroup);
     document.getElementById("division").addEventListener("click", division);
+    document.getElementById("fetchTables").addEventListener("click", fetchTables);
+    document.getElementById('fetchAttributeNames').addEventListener('click', fetchAttributeNames);
+    document.getElementById('fetchDataForAttributes').addEventListener('click', fetchDataForAttributes);
     document.getElementById("countDemotable").addEventListener("click", countDemotable);
 };
 

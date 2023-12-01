@@ -90,7 +90,20 @@
     <br><hr><br> <!-- ========================================================================= -->
 
     <h2>Project Attributes from Database</h2>
-    <button id="projectAttributes"> Project </button> <br>
+    <p>Projection</p>
+    <h4>Select a Table</h4>
+    <button id="fetchTables"> Fetch Tables </button> <br> <br>
+    <select id="tableNames"></select> <br> <br>
+    <button id="fetchAttributeNames">Fetch Attribute Names</button> 
+
+    <h4>Select Attribute(s)</h4>
+    <select id="attributeNames" multiple></select> <br> <br>
+    <button id="fetchDataForAttributes">Fetch Data</button>
+
+    <h4>Your Selected Data</h4>
+    <table id="selectedDataTable" border="1">
+        <tbody id="selectedDataBody"></tbody>
+    </table>
 
     <div id="projectResultMsg"></div>
 
