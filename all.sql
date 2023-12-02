@@ -12,28 +12,28 @@ DROP TABLE Townhome CASCADE CONSTRAINTS;
 
 -- PropertyManager
 CREATE TABLE PropertyManager (
-    Email VARCHAR(255) PRIMARY KEY,
-    ManagerName VARCHAR(255),
+    Email VARCHAR(35) PRIMARY KEY,
+    ManagerName VARCHAR(25),
     PhoneNumber INTEGER
 );
 
 -- Landlord
 CREATE TABLE Landlord (
-    LandlordEmail VARCHAR(255) PRIMARY KEY,
-    LandlordName VARCHAR(255),
+    LandlordEmail VARCHAR(35) PRIMARY KEY,
+    LandlordName VARCHAR(25),
     PhoneNumber INTEGER,
     NumProperties INTEGER,
-    ManagerEmail VARCHAR(255),
+    ManagerEmail VARCHAR(35),
     FOREIGN KEY (ManagerEmail) REFERENCES PropertyManager ON DELETE CASCADE
 );
 
 -- Realtor
 CREATE TABLE Realtor (
-    Email VARCHAR(255) PRIMARY KEY,
-    RealtorName VARCHAR(255),
+    Email VARCHAR(35) PRIMARY KEY,
+    RealtorName VARCHAR(25),
     PhoneNumber INTEGER,
     YearsOfExperience INTEGER,
-    ManagerEmail VARCHAR(255),
+    ManagerEmail VARCHAR(35),
     FOREIGN KEY (ManagerEmail) REFERENCES PropertyManager ON DELETE SET NULL
 );
 
@@ -45,25 +45,25 @@ CREATE TABLE RealtorExperience (
 
 -- MaintenanceStaff
 CREATE TABLE MaintenanceStaff (
-    Email VARCHAR(255) PRIMARY KEY,
-    MaintenanceName VARCHAR(255),
-    Speciality VARCHAR(255),
+    Email VARCHAR(35) PRIMARY KEY,
+    MaintenanceName VARCHAR(25),
+    Speciality VARCHAR(25),
     PhoneNumber INTEGER,
-    ManagerEmail VARCHAR(255),
+    ManagerEmail VARCHAR(35),
     FOREIGN KEY (ManagerEmail) REFERENCES PropertyManager ON DELETE SET NULL
 );
 
 -- Property
 CREATE TABLE Property (
-    Unit VARCHAR(255),
-    Street VARCHAR(255),
-    City VARCHAR(255),
-    Province VARCHAR(255),
+    Unit VARCHAR(5),
+    Street VARCHAR(25),
+    City VARCHAR(25),
+    Province VARCHAR(25),
     PostalCode CHAR(6),
     Sqft INTEGER,
     Bedrooms INTEGER,
-    ManagerEmail VARCHAR(255),
-    LandlordEmail VARCHAR(255),
+    ManagerEmail VARCHAR(35),
+    LandlordEmail VARCHAR(35),
     PRIMARY KEY (Unit, Street, PostalCode),
     FOREIGN KEY (ManagerEmail) REFERENCES PropertyManager ON DELETE SET NULL,
     FOREIGN KEY (LandlordEmail) REFERENCES Landlord ON DELETE CASCADE
@@ -77,8 +77,8 @@ CREATE TABLE PropertyValue (
 
 -- Apartment
 CREATE TABLE Apartment (
-    Unit VARCHAR(255),
-    Street VARCHAR(255),
+    Unit VARCHAR(5),
+    Street VARCHAR(25),
     PostalCode CHAR(6),
     FloorLevel INTEGER,
     Stories INTEGER,
@@ -89,8 +89,8 @@ CREATE TABLE Apartment (
 
 -- Townhome
 CREATE TABLE Townhome (
-    Unit VARCHAR(255),
-    Street VARCHAR(255),
+    Unit VARCHAR(5),
+    Street VARCHAR(25),
     PostalCode CHAR(6),
     AttachedHomes INTEGER,
     NumberOfFloors INTEGER,
