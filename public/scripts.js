@@ -36,6 +36,12 @@ async function checkDbConnection() {
     });
 }
 
+function escapeHtml(text) {
+    const div = document.createElement('div');
+    div.innerText = text;
+    return div.innerHTML;
+}
+
 // Fetches data from the demotable and displays it.
 async function fetchAndDisplayUsers() {
     const tableElement = document.getElementById('landlord');
@@ -66,11 +72,11 @@ async function fetchAndDisplayUsers() {
 async function insertLandlord(event) {
     event.preventDefault();
 
-    const landlordEmailValue = document.getElementById('insertLandlordEmail').value;
-    const landlordNameValue = document.getElementById('insertLandlordName').value;
-    const phoneNumberValue = document.getElementById('insertLandlordPhoneNumber').value;
-    const numPropertiesValue = document.getElementById('insertLandlordNumProperties').value;
-    const managerEmailValue = document.getElementById('insertManagerEmail').value;
+    const landlordEmailValue = escapeHtml(document.getElementById('insertLandlordEmail').value);
+    const landlordNameValue = escapeHtml(document.getElementById('insertLandlordName').value);
+    const phoneNumberValue = escapeHtml(document.getElementById('insertLandlordPhoneNumber').value);
+    const numPropertiesValue = escapeHtml(document.getElementById('insertLandlordNumProperties').value);
+    const managerEmailValue = escapeHtml(document.getElementById('insertManagerEmail').value);
 
     const response = await fetch('/insert-landlord', {
         method: 'POST',
@@ -101,7 +107,7 @@ async function insertLandlord(event) {
 async function deleteLandlord(event) {
     event.preventDefault();
 
-    const landlordEmailValue = document.getElementById('landlordEmail').value;
+    const landlordEmailValue = escapeHtml(document.getElementById('landlordEmail').value);
 
     const response = await fetch('/delete-landlord', {
         method: 'DELETE',
@@ -128,9 +134,9 @@ async function deleteLandlord(event) {
 async function updatePhoneLandlord(event) {
     event.preventDefault();
 
-    const emailValue = document.getElementById('updateEmailLandlord').value;
-    const oldNumValue = document.getElementById('updateOldPhoneLandlord').value;
-    const newNumValue = document.getElementById('updateNewPhoneLandlord').value;
+    const emailValue = escapeHtml(document.getElementById('updateEmailLandlord').value);
+    const oldNumValue = escapeHtml(document.getElementById('updateOldPhoneLandlord').value);
+    const newNumValue = escapeHtml(document.getElementById('updateNewPhoneLandlord').value);
 
     const response = await fetch('/update-phone-landlord', {
         method: 'POST',
@@ -158,7 +164,7 @@ async function updatePhoneLandlord(event) {
 async function joinFunc(event) {
     event.preventDefault();
 
-    const sqftValue = document.getElementById('userSQFT').value;
+    const sqftValue = escapeHtml(document.getElementById('userSQFT').value);
     
     const response = await fetch(`/joinFunc?userSQFT=${sqftValue}`, {
         method: 'GET',
@@ -262,11 +268,11 @@ async function division() {
 async function selection(event) {
     event.preventDefault();
 
-    const minSqftValue = document.getElementById('propertySqft').value;
-    const andor1 = document.getElementById('andor1').value;
-    const bedroomValue = document.getElementById('propertyBedrooms').value;
-    const andor2 = document.getElementById('andor2').value;
-    const maxPriceValue = document.getElementById('propertyPrice').value;
+    const minSqftValue = escapeHtml(document.getElementById('propertySqft').value);
+    const andor1 = escapeHtml(document.getElementById('andor1').value);
+    const bedroomValue = escapeHtml(document.getElementById('propertyBedrooms').value);
+    const andor2 = escapeHtml(document.getElementById('andor2').value);
+    const maxPriceValue = escapeHtml(document.getElementById('propertyPrice').value);
 
     const urlParams = new URLSearchParams({
         minSqft: minSqftValue,
@@ -307,7 +313,7 @@ async function selection(event) {
     }
 }
 
-// Helper function to display selected data
+// Helper function to display filtered data in selections
 function displayFilterData(data) {
     const selectedDataTable = document.getElementById('filteredDataTable');
     const selectedDataBody = document.getElementById('filteredDataBody');
@@ -383,7 +389,7 @@ async function fetchAttributeNames() {
     }
 }
 
-// Helper function to display selected data
+// Helper function to display selected data in project
 function displaySelectedData(data) {
     const selectedDataTable = document.getElementById('selectedDataTable');
     const selectedDataBody = document.getElementById('selectedDataBody');
