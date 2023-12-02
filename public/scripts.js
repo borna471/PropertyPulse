@@ -192,7 +192,7 @@ async function joinFunc(event) {
     if (responseData.success) {
         const joinFunc = responseData.data;
         if (joinFunc != "") {
-            messageElement.textContent = `The landlords with the properties that have at least ${sqftValue} sqft are: ${joinFunc}`;
+            messageElement.textContent = `The landlords with at least 1 property that has at least ${sqftValue} sqft are: ${joinFunc}`;
         } else {
             messageElement.textContent = `There are no landlords with at least ${sqftValue} sqft`;
         } 
