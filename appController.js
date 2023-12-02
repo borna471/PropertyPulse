@@ -29,15 +29,16 @@ router.post("/initiate-demotable", async (req, res) => {
     }
 });
 
-router.post("/insert-demotable", async (req, res) => {
-    const { id, name } = req.body;
-    const insertResult = await appService.insertDemotable(id, name);
-    if (insertResult) {
+
+router.post("/insert-landlord", async (req, res) => {
+    const { landlordEmail, landlordName, phoneNumber, numProperties, managerEmail } = req.body;
+    const insertLandlordResult = await appService.insertLandlord(landlordEmail, landlordName, phoneNumber, numProperties, managerEmail);
+    if (insertLandlordResult) {
         res.json({ success: true });
     } else {
         res.json({ success: false });
     }
-});
+});  
 
 router.delete("/delete-landlord", async (req, res) => {
     const { landlordEmail } = req.body;
@@ -59,6 +60,22 @@ router.post("/update-phone-landlord", async (req, res) => {
     }
 });
 
+router.get("/joinFunc", async (req, res) => {
+    const { userSQFT } = req.body;
+    const landlordsOutput = await appService.joinFunc(userSQFT);
+    if (landlordsOutput) {
+        res.json({ 
+            success: true, 
+            data: landlordsOutput
+        });
+    } else {
+        res.status(500).json({ 
+            success: false, 
+            //data: landlordsOutput
+        });
+    }
+});
+
 router.get('/nestedAggGroup', async (req, res) => {
     const cities = await appService.nestedAggGroup();
     if (cities) {
@@ -70,6 +87,21 @@ router.get('/nestedAggGroup', async (req, res) => {
         res.status(500).json({ 
             success: false, 
             data: cities
+        });
+    }
+});
+
+router.get('/aggGroup', async (req, res) => {
+    const propertymanager = await appService.aggGroup();
+    if (propertymanager) {
+        res.json({ 
+            success: true,  
+            data: propertymanager
+        });
+    } else {
+        res.status(500).json({ 
+            success: false, 
+            data: propertymanager
         });
     }
 });

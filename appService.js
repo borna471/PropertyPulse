@@ -71,11 +71,11 @@ async function initiateDemotable() {
     });
 }
 
-async function insertDemotable(id, name) {
+async function insertLandlord(landlordEmail, landlordName, phoneNumber, numProperties, managerEmail) {
     return await withOracleDB(async (connection) => {
         const result = await connection.execute(
-            `INSERT INTO DEMOTABLE (id, name) VALUES (:id, :name)`,
-            [id, name],
+            `INSERT INTO Landlord (landlordEmail, landlordName, phoneNumber, numProperties, managerEmail) VALUES (:landlordEmail, :landlordName, :phoneNumber, :numProperties, :managerEmail)`,
+            [landlordEmail, landlordName, phoneNumber, numProperties, managerEmail],
             { autoCommit: true }
         );
 
@@ -128,6 +128,39 @@ async function nestedAggGroup() {
     });
 }
 
+async function aggGroup() {
+    return await withOracleDB(async (connection) => {
+        const result = await connection.execute(
+            `SELECT PropertyManager.ManagerName
+            FROM PropertyManager JOIN Property
+            ON PropertyManager.Email = Property.ManagerEmail
+            GROUP BY PropertyManager.ManagerName
+            HAVING COUNT(*) > 0
+            ORDER BY COUNT(*) DESC
+            OFFSET 0 ROWS FETCH NEXT 1 ROW ONLY            
+            `);
+        return result.rows;
+    }).catch(() => {
+        return false;
+    });
+}
+
+async function joinFunc(userSQFT) {
+    return await withOracleDB(async (connection) => {
+        const result = await connection.execute(
+            `SELECT DISTINCT Landlord.LandlordName
+            FROM Landlord JOIN Property 
+            ON Landlord.LandlordEmail = Property.LandlordEmail
+            WHERE Property.Sqft > :userSQFT`,
+            [userSQFT],
+            { autoCommit: true }
+        );
+ 
+        return result.rows;
+    }).catch(() => {
+        return false;
+    });
+}
 
 
 async function countDemotable() {
@@ -143,9 +176,11 @@ module.exports = {
     testOracleConnection,
     fetchDemotableFromDb,
     initiateDemotable, 
-    insertDemotable, 
+    insertLandlord, 
     deleteLandlord,
-    updatePhoneLandlord, 
+    updatePhoneLandlord,
+    joinFunc,
     nestedAggGroup,
+    aggGroup,
     countDemotable
 };

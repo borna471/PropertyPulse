@@ -51,14 +51,16 @@
 
     <br><hr><br> <!-- ========================================================================= -->
 
-    <h2> Insert Values into DemoTable </h2>
-    <form id="insertDemotable">
-        ID: <input type="number" id="insertId" placeholder="Enter ID" required> <br><br>
-        Name: <input type="text" id="insertName" placeholder="Enter Name" maxlength="20"> <br><br>
-
-        <button type="submit"> insert </button> <br>
+    <h2> Insert Values into Landlord </h2>
+    <form id="insertLandlord">
+        Email: <input type="text" id="insertLandlordEmail" placeholder="Enter Email" required> <br><br>
+        Name: <input type="text" id="insertLandlordName" placeholder="Enter Name" maxlength="20" required> <br><br>
+        Phone Number: <input type="number" id="insertLandlordPhoneNumber" placeholder="Enter Phone Number" required> <br><br>
+        Number of Properties: <input type="number" id="insertLandlordNumProperties" placeholder="Enter Number of Properties" required> <br><br>
+        Property Manager Email: <input type="text" id="insertManagerEmail" placeholder="Enter Property Manager's Email" required> <br><br>
+        <button type="submit"> Insert Landlord</button> <br>
     </form>
-    <div id="insertResultMsg"></div>
+    <div id="insertLandlordResultMsg"></div>
 
     <br><hr><br> <!-- ========================================================================= -->
 
@@ -94,13 +96,29 @@
     <div id="projectResultMsg"></div>
 
     <br><hr><br> <!-- ========================================================================= -->
-
+    <h2> Find Landlords with with desired minimum sqft</h2>
+    <p>Join Query</p>
+    <form id="joinFunc">
+        Minimum SQFT: <input type="number" id="userSQFT" placeholder="Enter Minimum SQFT" required> <br><br>
+        <button type="submit"> Find</button> <br>
+    </form>
+    <div id="joinFuncResultMsg"></div>
+    
+    <br><hr><br> <!-- ========================================================================= -->
+    
     <h2>Which Cities in Canada have an Average Property Price Lower than Vancouver?</h2>
     <p>Nested Aggregation with Group By</p>
     <button id="nestedAggGroup"> Get </button> <br>
     
     <div id="nestedAggGroupResultMsg"></div>
 
+    <br><hr><br> <!-- ========================================================================= -->
+
+    <h2>Property Manager With the Most Properties</h2>
+    <p>Aggregation with Group By</p>
+    <button id="aggGroup"> Get </button> <br>
+    
+    <div id="aggGroupResultMsg"></div>
     <br><hr><br> <!-- ========================================================================= -->
 
     <h2>Count the Tuples in DemoTable</h2>

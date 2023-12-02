@@ -78,26 +78,32 @@ async function resetDemotable() {
     }
 }
 
-// Inserts new records into the demotable.
-async function insertDemotable(event) {
+// Inserts new records into the Landlord.
+async function insertLandlord(event) {
     event.preventDefault();
 
-    const idValue = document.getElementById('insertId').value;
-    const nameValue = document.getElementById('insertName').value;
+    const landlordEmailValue = document.getElementById('insertLandlordEmail').value;
+    const landlordNameValue = document.getElementById('insertLandlordName').value;
+    const phoneNumberValue = document.getElementById('insertLandlordPhoneNumber').value;
+    const numPropertiesValue = document.getElementById('insertLandlordNumProperties').value;
+    const managerEmailValue = document.getElementById('insertManagerEmail').value;
 
-    const response = await fetch('/insert-demotable', {
+    const response = await fetch('/insert-landlord', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-            id: idValue,
-            name: nameValue
+            landlordEmail: landlordEmailValue,
+            landlordName: landlordNameValue,
+            phoneNumber: phoneNumberValue,
+            numProperties: numPropertiesValue,
+            managerEmail: managerEmailValue
         })
     });
 
     const responseData = await response.json();
-    const messageElement = document.getElementById('insertResultMsg');
+    const messageElement = document.getElementById('insertLandlordResultMsg');
 
     if (responseData.success) {
         messageElement.textContent = "Data inserted successfully!";
@@ -194,6 +200,38 @@ async function updatePhoneLandlord(event) {
     }
 }
 
+async function joinFunc() {
+    // const response = await fetch("/joinFunc", {
+    //     method: 'GET'
+    // });
+    
+    const sqftValue = document.getElementById('userSQFT').value;
+    
+    const response = await fetch('/joinFunc', {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            userSQFT: sqftValue
+        })
+    });
+
+    const responseData = await response.json();
+    const messageElement = document.getElementById('joinFuncResultMsg');
+
+    if (responseData.success) {
+        const joinFunc = responseData.data;
+        
+            messageElement.textContent = `Join function ${joinFunc}`;
+
+        
+    } else {
+        alert("Error join!");
+    }
+}
+
+
 async function nestedAggGroup() {
     const response = await fetch("/nestedAggGroup", {
         method: 'GET'
@@ -211,6 +249,26 @@ async function nestedAggGroup() {
         } 
     } else {
         alert("Error calculating cities and average property prices!");
+    }
+}
+
+async function aggGroup() {
+    const response = await fetch("/aggGroup", {
+        method: 'GET'
+    });
+
+    const responseData = await response.json();
+    const messageElement = document.getElementById('aggGroupResultMsg');
+
+    if (responseData.success) {
+        const aggGroup = responseData.data;
+        if (aggGroup != "") {
+            messageElement.textContent = `The Property Manager with the most properties is: ${aggGroup}`;
+        } else {
+            messageElement.textContent = `There are no Property Managers!`;
+        } 
+    } else {
+        alert("Error finding the Property Manager with the most properties");
     }
 }
 
@@ -240,10 +298,12 @@ window.onload = function() {
     checkDbConnection();
     fetchTableData();
     document.getElementById("resetDemotable").addEventListener("click", resetDemotable);
-    document.getElementById("insertDemotable").addEventListener("submit", insertDemotable);
+    document.getElementById("insertLandlord").addEventListener("submit", insertLandlord);
     document.getElementById("deleteLandlord").addEventListener("submit", deleteLandlord);
     document.getElementById("updateLandlordPhone").addEventListener("submit", updatePhoneLandlord);
+    document.getElementById("joinFunc").addEventListener("submit", joinFunc);
     document.getElementById("nestedAggGroup").addEventListener("click", nestedAggGroup);
+    document.getElementById("aggGroup").addEventListener("click", aggGroup);
     document.getElementById("countDemotable").addEventListener("click", countDemotable);
 };
 
