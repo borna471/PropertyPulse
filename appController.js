@@ -20,16 +20,6 @@ router.get('/demotable', async (req, res) => {
     res.json({data: tableContent});
 });
 
-router.post("/initiate-demotable", async (req, res) => {
-    const initiateResult = await appService.initiateDemotable();
-    if (initiateResult) {
-        res.json({ success: true });
-    } else {
-        res.status(500).json({ success: false });
-    }
-});
-
-
 router.post("/insert-landlord", async (req, res) => {
     const { landlordEmail, landlordName, phoneNumber, numProperties, managerEmail } = req.body;
     const insertLandlordResult = await appService.insertLandlord(landlordEmail, landlordName, phoneNumber, numProperties, managerEmail);
@@ -61,7 +51,6 @@ router.post("/update-phone-landlord", async (req, res) => {
 });
 
 router.get("/joinFunc", async (req, res) => {
-    // const { userSQFT } = req.body;
     const { userSQFT } = req.query;
     const landlordsOutput = await appService.joinFunc(userSQFT);
     if (landlordsOutput) {
@@ -149,22 +138,6 @@ router.get("/selection", async (req, res) => {
         res.status(500).json({ 
             success: false,
             data: selectionResult 
-        });
-    }
-});
-
-
-router.get('/count-demotable', async (req, res) => {
-    const tableCount = await appService.countDemotable();
-    if (tableCount >= 0) {
-        res.json({ 
-            success: true,  
-            count: tableCount
-        });
-    } else {
-        res.status(500).json({ 
-            success: false, 
-            count: tableCount
         });
     }
 });

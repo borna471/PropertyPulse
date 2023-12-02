@@ -38,7 +38,7 @@ async function checkDbConnection() {
 
 // Fetches data from the demotable and displays it.
 async function fetchAndDisplayUsers() {
-    const tableElement = document.getElementById('demotable');
+    const tableElement = document.getElementById('landlord');
     const tableBody = tableElement.querySelector('tbody');
 
     const response = await fetch('/demotable', {
@@ -60,22 +60,6 @@ async function fetchAndDisplayUsers() {
             cell.textContent = field;
         });
     });
-}
-
-// This function resets or initializes the demotable.
-async function resetDemotable() {
-    const response = await fetch("/initiate-demotable", {
-        method: 'POST'
-    });
-    const responseData = await response.json();
-
-    if (responseData.success) {
-        const messageElement = document.getElementById('resetResultMsg');
-        messageElement.textContent = "demotable initiated successfully!";
-        fetchTableData();
-    } else {
-        alert("Error initiating table!");
-    }
 }
 
 // Inserts new records into the Landlord.
@@ -461,20 +445,18 @@ async function fetchDataForAttributes() {
 window.onload = function() {
     checkDbConnection();
     fetchTableData();
-    document.getElementById("resetDemotable").addEventListener("click", resetDemotable);
     document.getElementById("insertLandlord").addEventListener("submit", insertLandlord);
     document.getElementById("deleteLandlord").addEventListener("submit", deleteLandlord);
     document.getElementById("updateLandlordPhone").addEventListener("submit", updatePhoneLandlord);
     document.getElementById("AggHaving").addEventListener("click", AggHaving);
     document.getElementById("joinFunc").addEventListener("submit", joinFunc);
+    document.getElementById("aggGroup").addEventListener("click", aggGroup);
     document.getElementById("nestedAggGroup").addEventListener("click", nestedAggGroup);
     document.getElementById("division").addEventListener("click", division);
     document.getElementById("selectionFilters").addEventListener("submit", selection);
     document.getElementById("fetchTables").addEventListener("click", fetchTables);
     document.getElementById('fetchAttributeNames').addEventListener('click', fetchAttributeNames);
     document.getElementById('fetchDataForAttributes').addEventListener('click', fetchDataForAttributes);
-    document.getElementById("aggGroup").addEventListener("click", aggGroup);
-    document.getElementById("countDemotable").addEventListener("click", countDemotable);
 };
 
 // General function to refresh the displayed table data. 
