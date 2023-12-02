@@ -175,7 +175,7 @@ async function joinFunc(userSQFT) {
         return false;
     });
 }
-// Query TODO
+
 async function division() {
     return await withOracleDB(async (connection) => {
         const result = await connection.execute(
@@ -188,6 +188,22 @@ async function division() {
               (SELECT DISTINCT P.Province
                FROM Property P
                WHERE P.ManagerEmail = PM.Email))`
+            );
+        return result.rows;
+    }).catch(() => {
+        return false;
+    });
+}
+
+// TODO Query + ADD AND/ORs
+async function selectionPV(minSqft, andor1, bedrooms, andor2, maxPrice) {
+    return await withOracleDB(async (connection) => {
+        const result = await connection.execute(
+            `SELECT *
+            FROM PropertyValue
+            WHERE Sqft > :minSqft ${andor1} Bedrooms = :bedrooms ${andor2} Price < :maxPrice`,
+            [minSqft, bedrooms, maxPrice],
+            { autoCommit: true }
             );
         return result.rows;
     }).catch(() => {
@@ -253,6 +269,7 @@ module.exports = {
     joinFunc,
     nestedAggGroup,
     division, 
+    selectionPV,
     fetchTables,
     fetchAttributeNames,
     fetchDataForAttributes,

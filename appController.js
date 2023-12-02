@@ -137,6 +137,23 @@ router.get('/division', async (req, res) => {
     }
 });
 
+router.get("/selection", async (req, res) => {
+    const { minSqft, andor1, bedrooms, andor2, maxPrice } = req.query;
+    const selectionResult = await appService.selectionPV(minSqft, andor1, bedrooms, andor2, maxPrice);
+    if (selectionResult) {
+        res.json({ 
+            success: true,
+            data: selectionResult
+         });
+    } else {
+        res.status(500).json({ 
+            success: false,
+            data: selectionResult 
+        });
+    }
+});
+
+
 router.get('/count-demotable', async (req, res) => {
     const tableCount = await appService.countDemotable();
     if (tableCount >= 0) {

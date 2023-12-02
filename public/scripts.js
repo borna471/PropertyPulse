@@ -268,12 +268,91 @@ async function division() {
         if (divisionResult != "") {
             messageElement.textContent = `Manager(s) that manage properties in all Provinces: ${divisionResult}`;
         } else {
-            messageElement.textContent = `Error finding request Managers!`;
+            messageElement.textContent = `No managers that match the request!`;
         } 
     } else {
         alert("Error finding requested Managers!");
     }
 }
+
+async function selection(event) {
+    event.preventDefault();
+
+    const minSqftValue = document.getElementById('propertySqft').value;
+    const andor1 = document.getElementById('andor1').value;
+    const bedroomValue = document.getElementById('propertyBedrooms').value;
+    const andor2 = document.getElementById('andor2').value;
+    const maxPriceValue = document.getElementById('propertyPrice').value;
+
+    const urlParams = new URLSearchParams({
+        minSqft: minSqftValue,
+        andor1: andor1,
+        bedrooms: bedroomValue,
+        andor2: andor2,
+        maxPrice: maxPriceValue
+
+    });
+
+    const response = await fetch(`/selection?${urlParams}`, {
+        method: 'GET'
+        // headers: {
+        //     'Content-Type': 'application/json'
+        // },
+        // body: JSON.stringify({
+        //     sqft: minSqftValue,
+        //     andor1: andor1,
+        //     bedrooms: bedroomValue,
+        //     price: maxPriceValue,
+        //     andor2: andor2
+        // })
+    });
+
+    const responseData = await response.json();
+    const messageElement = document.getElementById('selectionResultMessage');
+
+    if (responseData.success) {
+        const selectionResult = responseData.data;
+        if (selectionResult != "") {
+            // messageElement.textContent = `selected properties: ${selectionResult}`;
+            displayFilterData(responseData.data);
+        } else {
+            messageElement.textContent = `Error selecting property values!`;
+        } 
+    } else {
+        alert("Error completing selection!");
+    }
+}
+
+// Helper function to display selected data
+function displayFilterData(data) {
+    const selectedDataTable = document.getElementById('filteredDataTable');
+    const selectedDataBody = document.getElementById('filteredDataBody');
+
+    // Always clear old, already fetched data before new fetching process.
+    selectedDataBody.innerHTML = '';
+
+    data.forEach(data => {
+        const row = document.createElement('tr');
+        Object.values(data).forEach(value => {
+            const cell = document.createElement('td');
+            cell.textContent = value;
+            row.appendChild(cell);
+        });
+        selectedDataBody.appendChild(row);
+    });
+
+    if (selectedDataBody.innerHTML == '') {
+        const messageElement = document.getElementById('selectionResultMessage');
+        // messageElement.textContent = `Error finding data from selected attributes!`;
+        selectedDataTable.style.display = 'none'; 
+    } else {
+        const messageElement = document.getElementById('selectionResultMessage');
+        // messageElement.textContent = ``;
+        selectedDataTable.style.display = 'block';
+    }
+    
+}
+
 
 async function fetchTables() {
     const response = await fetch('/all-table-names', {
@@ -390,6 +469,7 @@ window.onload = function() {
     document.getElementById("joinFunc").addEventListener("submit", joinFunc);
     document.getElementById("nestedAggGroup").addEventListener("click", nestedAggGroup);
     document.getElementById("division").addEventListener("click", division);
+    document.getElementById("selectionFilters").addEventListener("submit", selection);
     document.getElementById("fetchTables").addEventListener("click", fetchTables);
     document.getElementById('fetchAttributeNames').addEventListener('click', fetchAttributeNames);
     document.getElementById('fetchDataForAttributes').addEventListener('click', fetchDataForAttributes);
