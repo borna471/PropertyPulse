@@ -99,7 +99,7 @@ async function deleteLandlord(landlordEmail) {
     });
 }
 
-// TODO
+
 async function updatePhoneLandlord(email, oldNum, newNum) {
     return await withOracleDB(async (connection) => {
         const result = await connection.execute(
@@ -109,6 +109,20 @@ async function updatePhoneLandlord(email, oldNum, newNum) {
         );
  
         return result.rowsAffected && result.rowsAffected > 0;
+    }).catch(() => {
+        return false;
+    });
+}
+
+async function AggHaving() {
+    return await withOracleDB(async (connection) => {
+        const result = await connection.execute(
+            `SELECT LandlordName
+            FROM Landlord
+            GROUP BY NumProperties, LandlordName
+            HAVING NumProperties >= 3`
+            );
+        return result.rows;
     }).catch(() => {
         return false;
     });
@@ -161,7 +175,63 @@ async function joinFunc(userSQFT) {
         return false;
     });
 }
+// Query TODO
+async function division() {
+    return await withOracleDB(async (connection) => {
+        const result = await connection.execute(
+            `SELECT ManagerName 
+            FROM PropertyManager PM
+            WHERE NOT EXISTS
+            ((SELECT DISTINCT Province
+              FROM Property)
+              MINUS
+              (SELECT DISTINCT P.Province
+               FROM Property P
+               WHERE P.ManagerEmail = PM.Email))`
+            );
+        return result.rows;
+    }).catch(() => {
+        return false;
+    });
+}
 
+async function fetchTables() {
+    return await withOracleDB(async (connection) => {
+        const result = await connection.execute('SELECT table_name FROM user_tables');
+        return result.rows.map(row => row[0]);
+    }).catch(() => {
+        return [];
+    });
+}
+
+async function fetchAttributeNames(tableName) {
+    return await withOracleDB(async (connection) => {
+        const result = await connection.execute(
+            `SELECT column_name FROM user_tab_columns WHERE table_name = :tableName`, 
+            [tableName],
+            { autoCommit: true }
+        );
+        return result.rows.map(row => row[0]);
+    }).catch(() => {
+        return [];
+    });
+}
+
+async function fetchDataForAttributes(tableName, selectedAttributes) {
+    const selectedAttributesStr = selectedAttributes.join(', ');
+    const query = `SELECT ${selectedAttributesStr} FROM ${tableName}`;
+    
+    return await withOracleDB(async (connection) => {
+        const result = await connection.execute(
+            query,
+            [],
+            { autoCommit: true }
+        );
+        return result.rows;
+    }).catch(() => {
+        return [];
+    });
+}
 
 async function countDemotable() {
     return await withOracleDB(async (connection) => {
@@ -179,8 +249,13 @@ module.exports = {
     insertLandlord, 
     deleteLandlord,
     updatePhoneLandlord,
+    AggHaving,
     joinFunc,
     nestedAggGroup,
+    division, 
+    fetchTables,
+    fetchAttributeNames,
+    fetchDataForAttributes,
     aggGroup,
     countDemotable
 };

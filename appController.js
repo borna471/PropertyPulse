@@ -71,7 +71,22 @@ router.get("/joinFunc", async (req, res) => {
     } else {
         res.status(500).json({ 
             success: false, 
-            //data: landlordsOutput
+            data: landlordsOutput
+        });
+    }
+});
+
+router.get('/AggHaving', async (req, res) => {
+    const clients = await appService.AggHaving();
+    if (clients) {
+        res.json({ 
+            success: true,  
+            data: clients
+        });
+    } else {
+        res.status(500).json({ 
+            success: false, 
+            data: clients
         });
     }
 });
@@ -106,6 +121,21 @@ router.get('/aggGroup', async (req, res) => {
     }
 });
 
+router.get('/division', async (req, res) => {
+    const landlords = await appService.division();
+    if (landlords) {
+        res.json({ 
+            success: true,  
+            data: landlords
+        });
+    } else {
+        res.status(500).json({ 
+            success: false, 
+            data: landlords
+        });
+    }
+});
+
 router.get('/count-demotable', async (req, res) => {
     const tableCount = await appService.countDemotable();
     if (tableCount >= 0) {
@@ -121,5 +151,33 @@ router.get('/count-demotable', async (req, res) => {
     }
 });
 
+router.get('/all-table-names', async (req, res) => {
+    const tableNames = await appService.fetchTables();
+    if (tableNames) {
+        res.json({ success: true, data: tableNames });
+    } else {
+        res.status(500).json({ success: false });
+    }
+});
+
+router.get('/attribute-names/:tableName', async (req, res) => {
+    const { tableName } = req.params;
+    const attributeNames = await appService.fetchAttributeNames(tableName);
+    if (attributeNames) {
+        res.json({ success: true, data: attributeNames });
+    } else {
+        res.status(500).json({ success: false });
+    }
+});
+
+router.post('/fetch-data-for-attributes', async (req, res) => {
+    const { tableName, selectedAttributes } = req.body;
+    const data = await appService.fetchDataForAttributes(tableName, selectedAttributes);
+    if (data) {
+        res.json({ success: true, data: data });
+    } else {
+        res.status(500).json({ success: false });
+    }
+});
 
 module.exports = router;

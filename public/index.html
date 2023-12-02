@@ -35,6 +35,7 @@
                 <th>Name</th>
                 <th>Phone Number</th>
                 <th>Num Properties</th>
+                <th>Manager Email</th>
             </tr>
         </thead>
         <tbody>
@@ -74,7 +75,7 @@
         <button type="submit"> update </button> <br>
     </form>
     <!-- A placeholder to display messages related to the update operation. -->
-    <div id="updateNameResultMsg"></div>
+    <div id="updatePhoneResultMsg"></div>
 
     <br><hr><br> <!-- ========================================================================= -->
 
@@ -91,7 +92,20 @@
     <br><hr><br> <!-- ========================================================================= -->
 
     <h2>Project Attributes from Database</h2>
-    <button id="projectAttributes"> Project </button> <br>
+    <p>Projection</p>
+    <h4>Select a Table</h4>
+    <button id="fetchTables"> Fetch Tables </button> <br> <br>
+    <select id="tableNames"></select> <br> <br>
+    <button id="fetchAttributeNames">Fetch Attribute Names</button> 
+
+    <h4>Select Attribute(s)</h4>
+    <select id="attributeNames" multiple></select> <br> <br>
+    <button id="fetchDataForAttributes">Fetch Data</button>
+
+    <h4>Your Selected Data</h4>
+    <table id="selectedDataTable" border="1">
+        <tbody id="selectedDataBody"></tbody>
+    </table>
 
     <div id="projectResultMsg"></div>
 
@@ -104,6 +118,14 @@
     </form>
     <div id="joinFuncResultMsg"></div>
     
+    <br><hr><br> <!-- ========================================================================= -->
+    
+    <h2>Who are our current top clients? (Have 3+ properties with us)</h2>
+    <p>Aggregation with Having</p>
+    <button id="AggHaving"> Get </button> <br>
+    
+    <div id="AggHavingResultMsg"></div>
+
     <br><hr><br> <!-- ========================================================================= -->
     
     <h2>Which Cities in Canada have an Average Property Price Lower than Vancouver?</h2>
@@ -120,6 +142,15 @@
     
     <div id="aggGroupResultMsg"></div>
     <br><hr><br> <!-- ========================================================================= -->
+
+    <h2>Property Managers that manage a property in every Province the company operates in</h2>
+    <p>Division</p>
+    <button id="division"> Get </button> <br>
+    
+    <div id="divisionMsg"></div>
+
+    <br><hr><br> <!-- ========================================================================= -->
+
 
     <h2>Count the Tuples in DemoTable</h2>
     <button id="countDemotable"> count </button> <br><br>
