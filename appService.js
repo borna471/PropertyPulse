@@ -53,24 +53,6 @@ async function fetchDemotableFromDb() {
     });
 }
 
-async function initiateDemotable() {
-    return await withOracleDB(async (connection) => {
-        try {
-            //await connection.execute(`DROP TABLE DEMOTABLE`);
-        } catch(err) {
-            console.log('Table might not exist, proceeding to create...');
-        }
-        // const result = await connection.execute(`
-        //     CREATE TABLE DEMOTABLE (
-        //         id NUMBER PRIMARY KEY,
-        //         name VARCHAR2(20)
-        //     )
-        // `); 
-    }).catch(() => {
-        return false;
-    });
-}
-
 async function insertLandlord(landlordEmail, landlordName, phoneNumber, numProperties, managerEmail) {
     return await withOracleDB(async (connection) => {
         const result = await connection.execute(
@@ -98,7 +80,6 @@ async function deleteLandlord(landlordEmail) {
         return false;
     });
 }
-
 
 async function updatePhoneLandlord(email, oldNum, newNum) {
     return await withOracleDB(async (connection) => {
@@ -195,13 +176,12 @@ async function division() {
     });
 }
 
-// TODO Query + ADD AND/ORs
 async function selectionPV(minSqft, andor1, bedrooms, andor2, maxPrice) {
     return await withOracleDB(async (connection) => {
         const result = await connection.execute(
             `SELECT *
             FROM PropertyValue
-            WHERE Sqft > :minSqft ${andor1} Bedrooms = :bedrooms ${andor2} Price < :maxPrice`,
+            WHERE Sqft >= :minSqft ${andor1} Bedrooms = :bedrooms ${andor2} Price <= :maxPrice`,
             [minSqft, bedrooms, maxPrice],
             { autoCommit: true }
             );
@@ -261,7 +241,6 @@ async function countDemotable() {
 module.exports = {
     testOracleConnection,
     fetchDemotableFromDb,
-    initiateDemotable, 
     insertLandlord, 
     deleteLandlord,
     updatePhoneLandlord,
@@ -273,6 +252,5 @@ module.exports = {
     fetchTables,
     fetchAttributeNames,
     fetchDataForAttributes,
-    aggGroup,
-    countDemotable
+    aggGroup
 };
