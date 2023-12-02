@@ -61,7 +61,8 @@ router.post("/update-phone-landlord", async (req, res) => {
 });
 
 router.get("/joinFunc", async (req, res) => {
-    const { userSQFT } = req.body;
+    // const { userSQFT } = req.body;
+    const { userSQFT } = req.query;
     const landlordsOutput = await appService.joinFunc(userSQFT);
     if (landlordsOutput) {
         res.json({ 

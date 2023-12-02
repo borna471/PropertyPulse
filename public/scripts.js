@@ -171,34 +171,27 @@ async function updatePhoneLandlord(event) {
     }
 }
 
-async function joinFunc() {
-    // const response = await fetch("/joinFunc", {
-    //     method: 'GET'
-    // });
-    
+async function joinFunc(event) {
+    event.preventDefault();
+
     const sqftValue = document.getElementById('userSQFT').value;
     
-    const response = await fetch('/joinFunc', {
+    const response = await fetch(`/joinFunc?userSQFT=${sqftValue}`, {
         method: 'GET',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-            userSQFT: sqftValue
-        })
     });
 
     const responseData = await response.json();
     const messageElement = document.getElementById('joinFuncResultMsg');
-
+    
     if (responseData.success) {
         const joinFunc = responseData.data;
-        
-            messageElement.textContent = `Join function ${joinFunc}`;
-
-        
+        if (joinFunc != "") {
+            messageElement.textContent = `The landlords with the properties that have at least ${sqftValue} sqft are: ${joinFunc}`;
+        } else {
+            messageElement.textContent = `There are no landlords with the`;
+        } 
     } else {
-        alert("Error join!");
+        alert("An error occurred");
     }
 }
 
