@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <!-- This meta tag ensures that the website renders correctly across different device sizes, enhancing mobile responsiveness. -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Link to the external CSS stylesheet. Uncomment if you wish to customize or add styling. -->
+    <link rel="stylesheet" href="styles.css">  
+
+    <title>Database Application</title>
+</head>
+<body>
+    <!-- ===================================================================================== -->
+    <!-- Display the current status of the database connection. 
+         !!HERE TO HELP U DEBUGGING, NOT REQUIRED IN YOUR OWN PROJECT!!
+         -->
+    <h1 style="color: blue;"> 🪴 BUCS Realty Group: DB Management</h1>
+    <a href="index.html">
+        <button>Back</button>
+    </a>
+    <h2>DB Status: 
+        <!-- An in-line placeholder to display connection status. -->
+        <span id="dbStatus"> </span> 
+        <!-- A loading GIF, will be hided once get the status. -->
+        <img id="loadingGif" class="loading-gif" src="loading_100px.gif" alt="Loading...">
+    </h2>
+
+    <br><hr><br> <!-- ========================================================================= -->
+
+    <!-- Show 'Landlord'. 
+        Data will be fetched and inserted here dynamically using JavaScript. -->
+    <h2>Show Landlords</h2>
+    <table id="landlord" border="1">
+        <thead>
+            <tr>
+                <!--Table head, need to be adjusted accordingly to align with your own.-->
+                <th>Email</th>
+                <th>Name</th>
+                <th>Phone Number</th>
+                <th>Num Properties</th>
+                <th>Manager Email</th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+
+    <br><hr><br> <!-- ========================================================================= -->
+
+    <h2> Insert Values into Landlord </h2>
+    <form id="insertLandlord">
+        Email: <input type="text" id="insertLandlordEmail" placeholder="Enter Email" required> <br><br>
+        Name: <input type="text" id="insertLandlordName" placeholder="Enter Name" maxlength="20" required> <br><br>
+        Phone Number: <input type="number" id="insertLandlordPhoneNumber" placeholder="Enter Phone Number" required> <br><br>
+        Number of Properties: <input type="number" id="insertLandlordNumProperties" placeholder="Enter Number of Properties" required> <br><br>
+        Property Manager Email: <input type="text" id="insertManagerEmail" placeholder="Enter Property Manager's Email" required> <br><br>
+        <button type="submit"> Insert Landlord</button> <br>
+    </form>
+    <div id="insertLandlordResultMsg"></div>
+    
+    <br><hr><br> <!-- ========================================================================= -->
+
+    <h2>Delete Landlord from Database</h2>
+    <form id="deleteLandlord">
+        Email: <input type="text" id="landlordEmail" placeholder="Enter Landlord's Email" maxlength="50"> <br><br>
+
+        <button type="submit""> Delete </button> <br>
+    </form>
+    
+    <div id="deleteResultMsg"></div>
+    
+    <br><hr><br> <!-- ========================================================================= -->
+
+    <h2>Update a Phone Number in Landlord</h2>
+    <p>The values are case sensitive and if you enter in the wrong case, the update statement will not do anything.</p>
+    <form id="updateLandlordPhone">
+        Landlord's Current Email: <input type="text" id="updateEmailLandlord" placeholder="Enter Email of Landlord of Interest" required> <br><br>
+        Old Phone Number: <input type="integer" id="updateOldPhoneLandlord" placeholder="Enter Old Phone Number of Landlord" required> <br><br>
+        New Phone Number: <input type="integer" id="updateNewPhoneLandlord" placeholder="Enter New Phone Number of Landlord" maxlength="20"> <br><br>
+
+        <button type="submit"> Update </button> <br>
+    </form>
+
+    <div id="updatePhoneResultMsg"></div>
+    <script src="scripts.js"></script>
+</body>
+</html>
