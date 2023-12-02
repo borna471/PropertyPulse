@@ -195,6 +195,25 @@ async function joinFunc(event) {
     }
 }
 
+async function AggHaving() {
+    const response = await fetch("/AggHaving", {
+        method: 'GET'
+    });
+
+    const responseData = await response.json();
+    const messageElement = document.getElementById('AggHavingResultMsg');
+
+    if (responseData.success) {
+        const nestedAggGroup = responseData.data;
+        if (nestedAggGroup != "") {
+            messageElement.textContent = `Our current top clients are: ${nestedAggGroup}`;
+        } else {
+            messageElement.textContent = `We have no top clients! (no client with 3+ properties with us)`;
+        } 
+    } else {
+        alert("Error finding top clients!");
+    }
+}
 
 async function nestedAggGroup() {
     const response = await fetch("/nestedAggGroup", {
