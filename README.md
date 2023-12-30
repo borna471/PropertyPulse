@@ -1,3 +1,5 @@
-# project_d4t6o_e6h9h_k8i4l
+# PropertyPulse
 
-## Welcome to our Property Management Database Software 🫡
+## View and manage relationships with Realtors, Landlords, and Properties as a Property Manager! 
+
+### This project was designed and implemented by Borna Shani, Erping S., Fahim G.
